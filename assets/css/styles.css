@@ -1,0 +1,16 @@
+.galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .producto {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    width: 200px;
+    border-radius: 10px;
+    background: #f9f9f9;
+  }
+  h2 {
+    margin-top: 2rem;
+  }
