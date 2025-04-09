@@ -6,28 +6,29 @@ class Producto {
     this.genero = genero;
     this.precio = precio;
     this.año = año;
+    this.imagen = imagen;
   }
 }
 
 class Libro extends Producto {
-  constructor(titulo, autor, genero, precio, año, paginas) {
-    super(titulo, autor, genero, precio, año);
+  constructor(titulo, autor, genero, precio, año, paginas, imagen) {
+    super(titulo, autor, genero, precio, año, imagen);
     this.paginas = paginas;
     this.tipo = "libro";
   }
 }
 
 class Pelicula extends Producto {
-  constructor(titulo, director, genero, precio, año, duracion) {
-    super(titulo, director, genero, precio, año);
+  constructor(titulo, director, genero, precio, año, duracion, imagen) {
+    super(titulo, director, genero, precio, año, imagen);
     this.duracion = duracion;
     this.tipo = "pelicula";
   }
 }
 
 class CD extends Producto {
-  constructor(titulo, banda, genero, precio, año, canciones) {
-    super(titulo, banda, genero, precio, año);
+  constructor(titulo, banda, genero, precio, año, canciones, imagen) {
+    super(titulo, banda, genero, precio, año, imagen);
     this.canciones = canciones;
     this.tipo = "cd";
   }
@@ -39,6 +40,7 @@ function crearTarjeta(producto) {
   div.classList.add("producto", "card");
 
   div.innerHTML = `
+    <img src="${producto.imagen}" alt="${producto.titulo}" class="img-prod">
     <h3>${producto.titulo}</h3>
     <p><strong>Autor/Director:</strong> ${producto.autor}</p>
     <p><strong>Género:</strong> ${producto.genero}</p>
@@ -75,7 +77,7 @@ function activarBoton(idActivo) {
 
 // DATOS
 let libros = [
-  new Libro("Normal People", "Sally Rooney", "Literary Fiction", 20.76, 2019, 266),
+  new Libro("Normal People", "Sally Rooney", "Literary Fiction", 20.76, 2019, 266, "assets\images\normalpeople.jpg"),
   new Libro("Daisy Jones & The Six", "Taylor Jenkins Reid", "Historical Fiction", 20.76, 2019, 384),
   new Libro("The Priory of the Orange Tree", "Samantha Shannon", "Fantasy", 15.99, 1949, 328),
   new Libro("Pride & Prejudice", "Jane Austen", "Romance", 11.00, 1813, 279),
