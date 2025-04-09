@@ -1,6 +1,6 @@
 // CLASES
 class Producto {
-  constructor(titulo, autor, genero, precio, año) {
+  constructor(titulo, autor, genero, precio, año, imagen) {
     this.titulo = titulo;
     this.autor = autor;
     this.genero = genero;
