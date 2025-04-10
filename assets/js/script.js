@@ -49,12 +49,13 @@ function crearTarjeta(producto) {
   `;
 
   if (producto.tipo === "libro") {
-    div.innerHTML += `<p>Páginas: ${producto.paginas}</p>`;
+    div.innerHTML += `<p><strong>Páginas:</strong> ${producto.paginas}</p>`;
   } else if (producto.tipo === "pelicula") {
-    div.innerHTML += `<p>Duración: ${producto.duracion} min</p>`;
+    div.innerHTML += `<p><strong>Duración:</strong> ${producto.duracion} min</p>`;
   } else if (producto.tipo === "cd") {
-    div.innerHTML += `<p>Canciones: ${producto.canciones}</p>`;
+    div.innerHTML += `<p><strong>Canciones:</strong> ${producto.canciones}</p>`;
   }
+  
 
   return div;
 }
