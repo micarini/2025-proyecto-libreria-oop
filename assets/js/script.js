@@ -101,20 +101,24 @@ let cds = [
   new CD("Punisher", "Phoebe Bridgers", "Indie Rock", 13.2, 2020, 11, "assets/images/punisher.png"),
   new CD("The Tortured Poets Department", "Taylor Swift", "Synth Pop", 35.00, 2024, 16, "assets/images/ttpd.png"),
   new CD("Abbey Road", "The Beatles", "Rock", 14.00, 1969, 17, "assets/images/abbeyroad.jpg"),
-  new CD("SOS", "SZA", "Hip-hop", 27.82, 2022, 23, "assets/images/sos.png")
+  new CD("SOS", "SZA", "Hip-hop", 27.82, 2022, 23, "assets/images/sos.png"),
+  new CD("POST MORTEM", "Dillom", "Hip-Hop", 23.65, 2021, 18, "assets/images/postmortem.jpg"),
+  new CD("Short n' Sweet", "Sabrina Carpenter", "Pop", 44.30, 2024, 12, "assets/images/shortnsweet.webp")
 ];
 
 let peliculas = [
-  new Pelicula("Interstellar", "Christopher Nolan", "Science Fiction", 9.99, 2014, 169, "assets/images/interstellar.jpg"),
+  new Pelicula("Interstellar", "Christopher Nolan", "Science Fiction", 9.30, 2014, 169, "assets/images/interstellar.jpg"),
   new Pelicula("Star Wars: A New Hope", "George Lucas", "Science Fiction", 7.99, 1977, 121, "assets/images/starwars.jpg"),
-  new Pelicula("My Neighbor Totoro", "Hayao Miyazaki", "Fantasy", 9.99, 1988, 86, "assets/images/totoro.jpg"),
+  new Pelicula("My Neighbor Totoro", "Hayao Miyazaki", "Fantasy", 10.99, 1988, 86, "assets/images/totoro.jpg"),
   new Pelicula("Eternal Sunshine of the Spotless Mind", "Michel Gondry", "Science Fiction", 9.99, 2004, 108, "assets/images/eternalsunshine.jpg"),
   new Pelicula("Top Gun: Maverick", "Joseph Kosinski", "Action", 15.99, 2022, 8, "assets/images/maverick.jpg"),
   new Pelicula("Lady Bird", "Greta Gerwig", "Comedy", 7.5, 2017, 94, "assets/images/ladybird.jpg"),
   new Pelicula("La La Land", "Damien Chazelle", "Drama", 9.2, 2016, 129, "assets/images/lalaland.webp"),
   new Pelicula("Whiplash", "Damien Chazelle", "Drama", 9.2, 2014, 107, "assets/images/whiplash.jpg"),
   new Pelicula("The Royal Tenenbaums", "Wes Anderson", "Drama", 5.00, 2001, 110, "assets/images/royaltenenbaums.jpg"),
-  new Pelicula("10 Things I Hate About You", "Gil Junger", "Comedy", 9.99, 1999, 97, "assets/images/tenthings.jpg")
+  new Pelicula("10 Things I Hate About You", "Gil Junger", "Comedy", 9.99, 1999, 97, "assets/images/tenthings.jpg"),
+  new Pelicula("When Evil Lurks", "Demián Rugna", "Horror", 8.99, 2023, 100, "assets/images/whenevillurks.jpg"),
+  new Pelicula("I, Tonya","Craig Gillespie", "Comedy", 13.99, 2017, 120, "assets/images/itonya.jpg"),
 ];
 
 // EVENTOS
