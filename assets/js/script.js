@@ -77,9 +77,6 @@ function activarBoton(idActivo) {
 
 // DATOS
 let libros = [
-  new Libro("The Seven Husbands of Evelyn Hugo", "Taylor Jenkins Reid", "Romance", 9.99, 2017, 389),
-  new Libro("Ready Player One", "Ernest Cline", "Science Fiction", 7.99, 2011, 374),
-  new Libro("Six of Crows", "Leigh Bardugo", "Fantasy", 16.5, 2015, 495),
   new Libro("Normal People", "Sally Rooney", "Literary Fiction", 20.76, 2019, 266, "assets/images/normalpeople.jpg"),
   new Libro("Daisy Jones & The Six", "Taylor Jenkins Reid", "Historical Fiction", 20.76, 2019, 384, "assets/images/daisyjones.jpg"),
   new Libro("The Priory of the Orange Tree", "Samantha Shannon", "Fantasy", 15.99, 1949, 328, "assets/images/priory.jpg"),
