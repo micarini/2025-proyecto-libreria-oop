@@ -1,16 +1,91 @@
-.galeria {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  .producto {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    width: 200px;
-    border-radius: 10px;
-    background: #f9f9f9;
-  }
-  h2 {
-    margin-top: 2rem;
-  }
+/*CLASES UTILES*/
+.flex{
+  display: flex;
+}
+
+.center{
+  align-items: center;
+  justify-content: center;
+}
+
+.txt-c{
+  text-align: center;
+}
+
+.relative{
+  position: relative;
+}
+
+.cursorp{
+  cursor: pointer;
+}
+
+/*ajustes de texto*/
+.fw500{
+  font-weight: 500;
+}
+
+.em1{
+  font-size: 1em;
+} 
+
+.uppercase{
+  text-transform: uppercase;
+}
+
+.txtnegro{
+  color: #000000;
+}
+
+/*LIBRERIA DE PRODUCTOS*/
+.img-prod {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* Tarjetas de producto */
+.producto.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 10px;
+  width: 220px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.producto.card:hover {
+  transform: scale(1.03);
+}
+
+.btn-prod {
+  background-color: #eee;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-prod:hover {
+  background-color: #ccc;
+}
+
+.btn-prod.activo {
+  background-color: #000;
+  color: #fff;
+}
+
+#galeria-contenido {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+}
