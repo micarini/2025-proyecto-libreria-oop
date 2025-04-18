@@ -1,36 +1,181 @@
 // CLASES
 class Producto {
-  constructor(titulo, autor, genero, precio, año, imagen) {
-    this.titulo = titulo;
-    this.autor = autor;
-    this.genero = genero;
-    this.precio = precio;
-    this.año = año;
-    this.imagen = imagen;
+  #tipo;
+  #titulo;
+  #autor;
+  #genero;
+  #precio;
+  #año;
+  #imagen;
+  #reservadoHasta;  //propiedad para manejar la reserva
+
+  constructor(tipo, titulo, autor, genero, precio, año, imagen) {
+    this.#tipo = tipo;
+    this.#titulo = titulo;
+    this.#autor = autor;
+    this.#genero = genero;
+    this.#precio = precio;
+    this.#año = año;
+    this.#imagen = imagen;
+    this.#reservadoHasta = null;  //inicialmente no está reservado
+  }
+  get tipo() { return this.#tipo; }
+  get titulo() { return this.#titulo; }
+  get autor() { return this.#autor; }
+  get genero() { return this.#genero; }
+  get precio() { return this.#precio; }
+  get año() { return this.#año; }
+  get imagen() { return this.#imagen; }
+
+  //método de reserva
+  reservarProducto(dias) {
+    const fechaReserva = new Date(); //creamos una nueva instancia de la clase Date. esto nos da la fecha y hora actuales (del momento que se ejecuta la linea). este objeto fechaReserva ahora tiene la fecha y hora del momento exacto en el que se creó la instancia.
+    fechaReserva.setDate(fechaReserva.getDate() + dias);  //fechaReserva.getDate() devuelve el día del mes de la fecha almacenada en el objeto (si es 18 de abril devuelve 18). setDate para establecer un nuevo valor en el día del mes. sumamos dias al valor actual del día. (si dias es 7, entonces esta línea cambiará el día del mes a 25 de abril ya que hoy es 18). setDate automáticamente ajusta el mes y el año si el número de días sobrepasa el número de días en el mes o si se cruza de un mes a otro.
+    this.#reservadoHasta = fechaReserva; //se asigna el valor de fechaReserva a la propiedad privada #reservadoHasta. esto almacena la fecha en la que el producto será considerado reservado hasta ese momento (el producto estará reservado por los días que se le hayan asignado a partir del momento actual)
+  }
+
+  //getter para saber si está reservado
+  get estaReservado() {
+    if (!this.#reservadoHasta) return false; //verificamos si la propiedad #reservadoHasta es null o undefined (si no se estableció una fecha de reserva). si no está definida, significa que el producto no está reservado
+    return new Date() < this.#reservadoHasta; //si #reservadoHasta tiene un valor entonces comparamos la fecha actual (new Date()) con la fecha en que el producto estará reservado (#reservadoHasta). si la fecha actual es antes de #reservadoHasta, significa que el producto está reservado y returneamos true. si la fecha actual es después de la fecha de reserva significa que la reserva se expiró y returneamos false.
+    
+    
+  }
+
+//setters con validación
+set genero(valor) {
+  if (typeof valor === "string") this.#genero = valor; //typeof es una palabra clave de JavaScript que te dice de qué tipo es un valor, devuelve true solo si valor es un texto. si la condición es verdadera, le asigna el nuevo valor a la propiedad privada #genero.
+  else console.error("El género debe ser un string");
+}
+
+set precio(valor) {
+  if (typeof valor === "number" && valor >= 0) this.#precio = valor;
+  else console.error("El precio debe ser un número válido");
+}
+
+set año(valor) {
+  if (Number.isInteger(valor) && valor > 0) this.#año = valor; //Number.isInteger(valor) revisa si el valor es un número entero.
+  else console.error("El año debe ser un número entero positivo");
+}
+
+//polimorfismo 
+  get detalleHTML() { //metodo getter para obtener el detalle html del producto 
+    return ""; //por defecto no tiene detalles adicionales
   }
 }
 
 class Libro extends Producto {
+  #paginas;
   constructor(titulo, autor, genero, precio, año, paginas, imagen) {
-    super(titulo, autor, genero, precio, año, imagen);
-    this.paginas = paginas;
-    this.tipo = "libro";
+    super("libro", titulo, autor, genero, precio, año, imagen);
+    this.#paginas = paginas;
+  }
+
+  get paginas() {
+    return this.#paginas;
+  }
+
+  set paginas(valor) {
+    if (Number.isInteger(valor) && valor > 0) this.#paginas = valor;
+    else console.error("Las páginas deben ser un número entero positivo");
+  }
+
+  //PREGUNTAR SI HAY QUE SOBRESCRIBIR EL METODO contenidoHTML PARA QUE CADA TIPO DE PRODUCTO TENGA SU PROPIO COMPORTAMIENTO VISUAL
+   /*get contenidoHTML() {
+    let disponibilidad = this.estaReservado ? `<p>Este libro está reservado hasta ${this.#reservadoHasta.toLocaleDateString()}.</p>` : `<p>Disponible para alquilar.</p>`;
+    return `
+      <img src="${this.imagen}" alt="${this.titulo}">
+      <h3>${this.titulo}</h3>
+      <p><strong>Autor:</strong> ${this.autor}</p>
+      <p><strong>Género:</strong> ${this.genero}</p>
+      <p><strong>Año:</strong> ${this.año}</p>
+      <p><strong>Páginas:</strong> ${this.paginas}</p>
+      <p><strong>Precio:</strong> $${this.precio}</p>
+      ${disponibilidad}
+    `;
+  } 
+} */
+
+  get detalleHTML() {
+    return `<p><strong>Páginas:</strong> ${this.paginas}</p>`;
   }
 }
 
 class Pelicula extends Producto {
+  #duracion;
   constructor(titulo, director, genero, precio, año, duracion, imagen) {
-    super(titulo, director, genero, precio, año, imagen);
-    this.duracion = duracion;
-    this.tipo = "pelicula";
+    super("pelicula", titulo, director, genero, precio, año, imagen);
+    this.#duracion = duracion;
+  }
+
+  get duracion() {
+    return this.#duracion;
+  }
+
+  set duracion(valor) {
+    if (typeof valor === "number" && valor > 0) this.#duracion = valor;
+    else console.error("La duración debe ser un número positivo");
+  }
+  // //PREGUNTAR SI HAY QUE SOBRESCRIBIR EL METODO contenidoHTML PARA QUE CADA TIPO DE PRODUCTO TENGA SU PROPIO COMPORTAMIENTO VISUAL
+  /*get contenidoHTML() {
+    let disponibilidad = this.estaReservado ? `<p>Esta película está reservada hasta ${this.#reservadoHasta.toLocaleDateString()}.</p>` : `<p>Disponible para alquilar.</p>`;
+    return `
+      <img src="${this.imagen}" alt="${this.titulo}">
+      <h3>${this.titulo}</h3>
+      <p><strong>Director:</strong> ${this.autor}</p>
+      <p><strong>Género:</strong> ${this.genero}</p>
+      <p><strong>Año:</strong> ${this.año}</p>
+      <p><strong>Duración:</strong> ${this.duracion} min</p>
+      <p><strong>Precio:</strong> $${this.precio}</p>
+      ${disponibilidad}
+      <div class="trailer-preview">
+        <!--agregar un reproductor de video o enlace a un trailer -->
+        <button>Ver Trailer</button>
+      </div>
+    `;
+  }*/
+
+  get detalleHTML() {
+    return `<p><strong>Duración:</strong> ${this.duracion} min</p>`;
   }
 }
 
 class CD extends Producto {
+  #canciones;
   constructor(titulo, banda, genero, precio, año, canciones, imagen) {
-    super(titulo, banda, genero, precio, año, imagen);
-    this.canciones = canciones;
-    this.tipo = "cd";
+    super("cd", titulo, banda, genero, precio, año, imagen);
+    this.#canciones = canciones;
+  }
+
+  get canciones() {
+    return this.#canciones;
+  }
+
+  set canciones(valor) {
+    if (Number.isInteger(valor) && valor > 0) this.#canciones = valor;
+    else console.error("La cantidad de canciones debe ser un número entero positivo");
+  }
+  //PREGUNTAR
+  /*get contenidoHTML() {
+    let disponibilidad = this.estaReservado ? `<p>Este CD está reservado hasta ${this.#reservadoHasta.toLocaleDateString()}.</p>` : `<p>Disponible para alquilar.</p>`;
+    return `
+      <img src="${this.imagen}" alt="${this.titulo}">
+      <h3>${this.titulo}</h3>
+      <p><strong>Banda:</strong> ${this.autor}</p>
+      <p><strong>Género:</strong> ${this.genero}</p>
+      <p><strong>Año:</strong> ${this.año}</p>
+      <p><strong>Canciones:</strong> ${this.canciones}</p>
+      <p><strong>Precio:</strong> $${this.precio}</p>
+      ${disponibilidad}
+      <div class="preview">
+        <!-- Aquí puedes agregar un reproductor de música -->
+        <button>Escuchar un Preview</button>
+      </div>
+    `;
+  }*/
+
+  get detalleHTML() {
+    return `<p><strong>Canciones:</strong> ${this.canciones}</p>`;
   }
 }
 
@@ -46,18 +191,10 @@ function crearTarjeta(producto) {
     <p><strong>Género:</strong> ${producto.genero}</p>
     <p><strong>Año:</strong> ${producto.año}</p>
     <p><strong>Precio:</strong> $${producto.precio}</p>
+    ${producto.detalleHTML}
   `;
 
-  if (producto.tipo === "libro") {
-    div.innerHTML += `<p><strong>Páginas:</strong> ${producto.paginas}</p>`;
-  } else if (producto.tipo === "pelicula") {
-    div.innerHTML += `<p><strong>Duración:</strong> ${producto.duracion} min</p>`;
-  } else if (producto.tipo === "cd") {
-    div.innerHTML += `<p><strong>Canciones:</strong> ${producto.canciones}</p>`;
-  }
-  
-
-  return div;
+return div;
 }
 
 function mostrarProductos(productos) {
