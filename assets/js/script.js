@@ -67,6 +67,9 @@ class Producto {
       return this.#reservadoHasta;
     }
     
+    cancelarReserva() {
+      this.#reservadoHasta = null;
+    }
 }
 
 class Libro extends Producto {
@@ -255,17 +258,24 @@ function crearTarjeta(producto) {
   botonReserva.textContent = "Reservar por 7 días";
   botonReserva.classList.add("btn-reservar");
 
+  if (producto.estaReservado) { //el boton cambia cuando se lo presiona
+    botonReserva.textContent = "Cancelar reserva";
+  } else {
+    botonReserva.textContent = "Reservar por 7 dias"
+  }
+
   botonReserva.addEventListener("click", () => {
-    producto.reservarProducto(7);
-    mostrarProductos(productosActuales); // actualizamos la galería
+    if (producto.estaReservado) {
+      producto.cancelarReserva();
+      alert("Reserva cancelada");
+    } else {
+      producto.reservarProducto(7);
+      alert("Producto reservado por 7 días");
+    }
+    mostrarProductos(productosActuales); // actualiza la galería entera
   });
 
   div.querySelector(".producto.card").appendChild(botonReserva);
-
-  if (producto.estaReservado) { //el boton cambia cuando se lo presiona
-    botonReserva.disabled = true;
-    botonReserva.textContent = "Reservado";
-  }
 
   return div;
 }
@@ -354,3 +364,5 @@ document.getElementById("boton3").addEventListener("click", function () {
 // MOSTRAR LIBROS AL INICIO
 mostrarProductos(libros);
 activarBoton("boton1");
+
+// mdn file input, mdn base64 
