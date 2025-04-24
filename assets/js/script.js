@@ -42,26 +42,31 @@ class Producto {
     
   }
 
-//setters con validación
-set genero(valor) {
-  if (typeof valor === "string") this.#genero = valor; //typeof es una palabra clave de JavaScript que te dice de qué tipo es un valor, devuelve true solo si valor es un texto. si la condición es verdadera, le asigna el nuevo valor a la propiedad privada #genero.
-  else console.error("El género debe ser un string");
-}
-
-set precio(valor) {
-  if (typeof valor === "number" && valor >= 0) this.#precio = valor;
-  else console.error("El precio debe ser un número válido");
-}
-
-set año(valor) {
-  if (Number.isInteger(valor) && valor > 0) this.#año = valor; //Number.isInteger(valor) revisa si el valor es un número entero.
-  else console.error("El año debe ser un número entero positivo");
-}
-
-//polimorfismo 
-  get detalleHTML() { //metodo getter para obtener el detalle html del producto 
-    return ""; //por defecto no tiene detalles adicionales
+  //setters con validación
+  set genero(valor) {
+    if (typeof valor === "string") this.#genero = valor; //typeof es una palabra clave de js que te dice de qué tipo es un valor, devuelve true solo si valor es un texto. si la condición es verdadera, le asigna el nuevo valor a la propiedad privada #genero.
+    else console.error("El género debe ser un string");
   }
+
+  set precio(valor) {
+    if (typeof valor === "number" && valor >= 0) this.#precio = valor;
+    else console.error("El precio debe ser un número válido");
+  }
+
+  set año(valor) {
+    if (Number.isInteger(valor) && valor > 0) this.#año = valor; //Number.isInteger(valor) revisa si el valor es un número entero.
+    else console.error("El año debe ser un número entero positivo");
+  }
+
+  //polimorfismo 
+    get detalleHTML() { //metodo getter para obtener el detalle html del producto 
+      return ""; //por defecto no tiene detalles adicionales
+    }
+
+    get fechaDeReserva() {
+      return this.#reservadoHasta;
+    }
+    
 }
 
 class Libro extends Producto {
@@ -80,26 +85,47 @@ class Libro extends Producto {
     else console.error("Las páginas deben ser un número entero positivo");
   }
 
-  //PREGUNTAR SI HAY QUE SOBRESCRIBIR EL METODO contenidoHTML PARA QUE CADA TIPO DE PRODUCTO TENGA SU PROPIO COMPORTAMIENTO VISUAL
-   /*get contenidoHTML() {
-    let disponibilidad = this.estaReservado ? `<p>Este libro está reservado hasta ${this.#reservadoHasta.toLocaleDateString()}.</p>` : `<p>Disponible para alquilar.</p>`;
-    return `
-      <img src="${this.imagen}" alt="${this.titulo}">
-      <h3>${this.titulo}</h3>
-      <p><strong>Autor:</strong> ${this.autor}</p>
-      <p><strong>Género:</strong> ${this.genero}</p>
-      <p><strong>Año:</strong> ${this.año}</p>
-      <p><strong>Páginas:</strong> ${this.paginas}</p>
-      <p><strong>Precio:</strong> $${this.precio}</p>
-      ${disponibilidad}
+  get contenidoHTML() {
+    let disponibilidad = "";
+
+    if (this.estaReservado) {
+      disponibilidad = `<p class="reserva">Reservado hasta ${this.fechaDeReserva.toLocaleDateString()}</p>`;
+    } else {
+      disponibilidad = `<p class="disponible">Disponible para alquilar</p>`;
+    }
+
+    let html = `
+      <div class="producto card">
+        <img src="${this.imagen}" alt="${this.titulo}" class="img-prod">
+        <h3>${this.titulo}</h3>
+        <p><strong>Autor:</strong> ${this.autor}</p>
+        <p><strong>Género:</strong> ${this.genero}</p>
+        <p><strong>Año:</strong> ${this.año}</p>
+        <p><strong>Precio:</strong> $${this.precio}</p>
+        <p><strong>Páginas:</strong> ${this.paginas}</p>
+        ${disponibilidad}
+      </div>
     `;
-  } 
-} */
+    
+    return html;
+  }
 
   get detalleHTML() {
-    return `<p><strong>Páginas:</strong> ${this.paginas}</p>`;
+    let disponibilidad = ""; //creo esta variable vacia
+  
+    if (this.estaReservado) { //verifico si el producto esta reservado
+      disponibilidad = `<p class="reserva">Reservado hasta ${this.fechaDeReserva.toLocaleDateString()}</p>`;
+    } else {
+      disponibilidad = `<p class="disponible">Disponible para alquilar</p>`;
+    }
+  
+    return `
+      <p><strong>Páginas:</strong> ${this.paginas}</p> 
+      ${disponibilidad} 
+    `; //devuelvo el html final uniendo los datos de paginas y de disponibilidad
   }
-}
+} 
+
 
 class Pelicula extends Producto {
   #duracion;
@@ -116,27 +142,46 @@ class Pelicula extends Producto {
     if (typeof valor === "number" && valor > 0) this.#duracion = valor;
     else console.error("La duración debe ser un número positivo");
   }
-  // //PREGUNTAR SI HAY QUE SOBRESCRIBIR EL METODO contenidoHTML PARA QUE CADA TIPO DE PRODUCTO TENGA SU PROPIO COMPORTAMIENTO VISUAL
-  /*get contenidoHTML() {
-    let disponibilidad = this.estaReservado ? `<p>Esta película está reservada hasta ${this.#reservadoHasta.toLocaleDateString()}.</p>` : `<p>Disponible para alquilar.</p>`;
-    return `
-      <img src="${this.imagen}" alt="${this.titulo}">
-      <h3>${this.titulo}</h3>
-      <p><strong>Director:</strong> ${this.autor}</p>
-      <p><strong>Género:</strong> ${this.genero}</p>
-      <p><strong>Año:</strong> ${this.año}</p>
-      <p><strong>Duración:</strong> ${this.duracion} min</p>
-      <p><strong>Precio:</strong> $${this.precio}</p>
-      ${disponibilidad}
-      <div class="trailer-preview">
-        <!--agregar un reproductor de video o enlace a un trailer -->
-        <button>Ver Trailer</button>
+  
+  get contenidoHTML() {
+    let disponibilidad = "";
+  
+    if (this.estaReservado) {
+      disponibilidad = `<p class="reserva">Reservada hasta ${this.fechaDeReserva.toLocaleDateString()}</p>`;
+    } else {
+      disponibilidad = `<p class="disponible">Disponible para alquilar</p>`;
+    }
+  
+    let html = `
+      <div class="producto card">
+        <img src="${this.imagen}" alt="${this.titulo}" class="img-prod">
+        <h3>${this.titulo}</h3>
+        <p><strong>Director:</strong> ${this.autor}</p>
+        <p><strong>Género:</strong> ${this.genero}</p>
+        <p><strong>Año:</strong> ${this.año}</p>
+        <p><strong>Precio:</strong> $${this.precio}</p>
+        <p><strong>Duración:</strong> ${this.duracion} min</p>
+        ${disponibilidad}
       </div>
     `;
-  }*/
+    
+    return html;
+  }
+  
 
   get detalleHTML() {
-    return `<p><strong>Duración:</strong> ${this.duracion} min</p>`;
+    let disponibilidad = "";
+  
+    if (this.estaReservado) {
+      disponibilidad = `<p class="reserva">Reservado hasta ${this.fechaDeReserva.toLocaleDateString()}</p>`;
+    } else {
+      disponibilidad = `<p class="disponible">Disponible para alquilar</p>`;
+    }
+  
+    return `
+      <p><strong>Duración:</strong> ${this.duracion} min</p>
+      ${disponibilidad}
+    `;
   }
 }
 
@@ -155,46 +200,74 @@ class CD extends Producto {
     if (Number.isInteger(valor) && valor > 0) this.#canciones = valor;
     else console.error("La cantidad de canciones debe ser un número entero positivo");
   }
-  //PREGUNTAR
-  /*get contenidoHTML() {
-    let disponibilidad = this.estaReservado ? `<p>Este CD está reservado hasta ${this.#reservadoHasta.toLocaleDateString()}.</p>` : `<p>Disponible para alquilar.</p>`;
-    return `
-      <img src="${this.imagen}" alt="${this.titulo}">
-      <h3>${this.titulo}</h3>
-      <p><strong>Banda:</strong> ${this.autor}</p>
-      <p><strong>Género:</strong> ${this.genero}</p>
-      <p><strong>Año:</strong> ${this.año}</p>
-      <p><strong>Canciones:</strong> ${this.canciones}</p>
-      <p><strong>Precio:</strong> $${this.precio}</p>
-      ${disponibilidad}
-      <div class="preview">
-        <!-- Aquí puedes agregar un reproductor de música -->
-        <button>Escuchar un Preview</button>
+  
+  get contenidoHTML() {
+    let disponibilidad = "";
+  
+    if (this.estaReservado) {
+      disponibilidad = `<p class="reserva">Reservado hasta ${this.fechaDeReserva.toLocaleDateString()}</p>`;
+    } else {
+      disponibilidad = `<p class="disponible">Disponible para alquilar</p>`;
+    }
+  
+    let html = `
+      <div class="producto card">
+        <img src="${this.imagen}" alt="${this.titulo}" class="img-prod">
+        <h3>${this.titulo}</h3>
+        <p><strong>Banda:</strong> ${this.autor}</p>
+        <p><strong>Género:</strong> ${this.genero}</p>
+        <p><strong>Año:</strong> ${this.año}</p>
+        <p><strong>Precio:</strong> $${this.precio}</p>
+        <p><strong>Canciones:</strong> ${this.canciones}</p>
+        ${disponibilidad}
       </div>
     `;
-  }*/
+    
+    return html;
+  }
+  
 
   get detalleHTML() {
-    return `<p><strong>Canciones:</strong> ${this.canciones}</p>`;
+    let disponibilidad = "";
+  
+    if (this.estaReservado) {
+      disponibilidad = `<p class="reserva">Reservado hasta ${this.fechaDeReserva.toLocaleDateString()}</p>`;
+    } else {
+      disponibilidad = `<p class="disponible">Disponible para alquilar</p>`;
+    }
+  
+    return `
+      <p><strong>Canciones:</strong> ${this.canciones}</p>
+      ${disponibilidad}
+    `;
   }
+  
 }
+
+let productosActuales = []; // para saber qué productos mostrar luego de una reserva
 
 // FUNCIONES
 function crearTarjeta(producto) {
   let div = document.createElement("div");
-  div.classList.add("producto", "card");
+  div.innerHTML = producto.contenidoHTML;
 
-  div.innerHTML = `
-    <img src="${producto.imagen}" alt="${producto.titulo}" class="img-prod">
-    <h3>${producto.titulo}</h3>
-    <p><strong>Autor/Director:</strong> ${producto.autor}</p>
-    <p><strong>Género:</strong> ${producto.genero}</p>
-    <p><strong>Año:</strong> ${producto.año}</p>
-    <p><strong>Precio:</strong> $${producto.precio}</p>
-    ${producto.detalleHTML}
-  `;
+  const botonReserva = document.createElement("button"); //creo un boton para reservar
+  botonReserva.textContent = "Reservar por 7 días";
+  botonReserva.classList.add("btn-reservar");
 
-return div;
+  botonReserva.addEventListener("click", () => {
+    producto.reservarProducto(7);
+    mostrarProductos(productosActuales); // actualizamos la galería
+  });
+
+  div.querySelector(".producto.card").appendChild(botonReserva);
+
+  if (producto.estaReservado) { //el boton cambia cuando se lo presiona
+    botonReserva.disabled = true;
+    botonReserva.textContent = "Reservado";
+  }
+
+  return div;
 }
 
 function mostrarProductos(productos) {
@@ -261,16 +334,19 @@ let peliculas = [
 
 // EVENTOS
 document.getElementById("boton1").addEventListener("click", function () {
+  productosActuales = libros;
   mostrarProductos(libros);
   activarBoton("boton1");
 });
 
 document.getElementById("boton2").addEventListener("click", function () {
+  productosActuales = cds;
   mostrarProductos(cds);
   activarBoton("boton2");
 });
 
 document.getElementById("boton3").addEventListener("click", function () {
+  productosActuales = peliculas;
   mostrarProductos(peliculas);
   activarBoton("boton3");
 });
