@@ -82,14 +82,16 @@ body {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 16px;
+  padding: 1em;
   margin: 10px;
-  width: 220px;
+  width: 250px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   text-align: center; /*clase util sacar*/
-  height: 50em; /* fuerzo a que tengan una altura fija */
-  justify-content: space-between; /* empuja el botón al fondo */
+  height: 60em; /* fuerzo a que tengan una altura fija */ 
+  justify-content: space-between; /* empuja el botón al fondo */ /* asegura separación entre info y botón */
+  display: flex;
+  flex-direction: column;
 }
 
 .producto.card:hover {
@@ -126,11 +128,12 @@ body {
   color: #fff;
   border: none;
   padding: 8px 16px;
-  margin-top: 10px;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 1em;
+
 }
 
 .btn-reservar:hover {
@@ -141,4 +144,28 @@ body {
   background-color: #ccc;
   cursor: not-allowed; /*demuestra que el usuario no puede tocar el boton*/
   color: #666;
+}
+
+.info-producto {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+
+/*card admin*/
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem;
+  width: 250px;
+  background-color: #f9f9f9;
+}
+.card h3 {
+  margin: 0.5rem 0;
+}
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
 }

@@ -1,0 +1,81 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administración</title>
+</head>
+<body>
+  <h1>Agregar nuevo contenido</h1>
+
+  <form id="formulario">
+    <input type="text" name="titulo" placeholder="Título" required><br>
+    <select name="tipo" required">
+      <option value="libro">Libro</option>
+      <option value="pelicula">Película</option>
+      <option value="cd">CD</option>
+    </select><br>
+
+    <label for="autor">Autor / Director / Artista:</label>
+    <input type="text" id="autor" name="autor" required><br><br>
+
+    <label for="anio">Año:</label>
+    <input type="number" id="anio" name="anio"><br><br>
+
+    <label for="descripcion">Descripción:</label><br>
+    <textarea id="descripcion" name="descripcion" rows="4" cols="40"></textarea><br><br>
+
+    <input type="file" name="imagen" accept="image/*" required><br>
+
+    <button type="submit">Guardar</button>
+  </form>
+
+  <p id="mensaje" style="color: green;"></p>
+
+  <br>
+  <a href="index.html">
+    <button>Volver a inicio</button>
+  </a>
+
+  <script>
+    const formulario = document.getElementById('formulario');
+
+    formulario.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const titulo = this.titulo.value;
+      const tipo = this.tipo.value;
+      const autor = this.autor.value;
+      const anio = this.anio.value;
+      const descripcion = this.descripcion.value;
+      const imagenInput = this.imagen.files[0];
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const imagenBase64 = reader.result;
+
+        const nuevoItem = {
+          titulo,
+          tipo,
+          autor,
+          anio,
+          descripcion,
+          imagen: imagenBase64 //se guarda como texto base64
+        };
+
+        const items = JSON.parse(localStorage.getItem('items')) || [];
+        items.push(nuevoItem);
+        localStorage.setItem('items', JSON.stringify(items));
+
+        alert('¡Guardado!');
+        formulario.reset();
+      };
+
+      if (imagenInput) {
+        reader.readAsDataURL(imagenInput); // ← lee como base64
+      }
+    });
+  </script>
+  </script>
+</body>
+</html>

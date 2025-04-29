@@ -101,11 +101,13 @@ class Libro extends Producto {
       <div class="producto card">
         <img src="${this.imagen}" alt="${this.titulo}" class="img-prod">
         <h3>${this.titulo}</h3>
+        <div class= "info-producto">
         <p><strong>Autor:</strong> ${this.autor}</p>
         <p><strong>Género:</strong> ${this.genero}</p>
         <p><strong>Año:</strong> ${this.año}</p>
         <p><strong>Precio:</strong> $${this.precio}</p>
         <p><strong>Páginas:</strong> ${this.paginas}</p>
+        </div>
         ${disponibilidad}
       </div>
     `;
@@ -159,11 +161,13 @@ class Pelicula extends Producto {
       <div class="producto card">
         <img src="${this.imagen}" alt="${this.titulo}" class="img-prod">
         <h3>${this.titulo}</h3>
+        <div class="info-producto">
         <p><strong>Director:</strong> ${this.autor}</p>
         <p><strong>Género:</strong> ${this.genero}</p>
         <p><strong>Año:</strong> ${this.año}</p>
         <p><strong>Precio:</strong> $${this.precio}</p>
         <p><strong>Duración:</strong> ${this.duracion} min</p>
+        </div>
         ${disponibilidad}
       </div>
     `;
@@ -217,11 +221,13 @@ class CD extends Producto {
       <div class="producto card">
         <img src="${this.imagen}" alt="${this.titulo}" class="img-prod">
         <h3>${this.titulo}</h3>
+        <div class="info-producto">
         <p><strong>Banda:</strong> ${this.autor}</p>
         <p><strong>Género:</strong> ${this.genero}</p>
         <p><strong>Año:</strong> ${this.año}</p>
         <p><strong>Precio:</strong> $${this.precio}</p>
         <p><strong>Canciones:</strong> ${this.canciones}</p>
+        </div>
         ${disponibilidad}
       </div>
     `;
@@ -366,3 +372,23 @@ mostrarProductos(libros);
 activarBoton("boton1");
 
 // mdn file input, mdn base64 
+
+const items = JSON.parse(localStorage.getItem('items')) || [];
+
+    const contenedor = document.getElementById('galeria-contenido');
+
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'producto card ';
+      card.innerHTML = `
+  <img src="${item.imagen}" alt="${item.titulo}" style="width:100%; height:auto; border-radius:8px;">
+  <h3>${item.titulo}</h3>
+  <p><strong>Tipo:</strong> ${item.tipo}</p>
+  <p><strong>Autor/Director:</strong> ${item.autor}</p>
+  <p><strong>Año:</strong> ${item.anio}</p>
+  <p>${item.descripcion}</p>
+`;
+      contenedor.appendChild(card);
+    });
+
+    
