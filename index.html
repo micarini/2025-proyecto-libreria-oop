@@ -21,10 +21,18 @@
    <!-- Contenedor dinámico de tarjetas -->
   <div id="galeria-contenido" class="galeria flex justify-c wrap"></div>
   </section>
-    <!--SECTION-->
-    <a href="admin.html">
-      <button>Agregar Libro, Película o CD</button>
-    </a>
+
+
+  <div id="modal" class="modal oculto">
+    <div class="modal-contenido">
+      <span class="cerrar" id="cerrar-modal">&times;</span>
+      <h2 id="modal-titulo"></h2>
+      <p id="modal-descripcion"></p>
+    </div>
+  </div>
+    
+    
+  <a href="admin.html" class="boton-agregar" title="Agregar nuevo contenido">＋</a>
     
   <script src="assets/js/script.js"></script>
 </body>

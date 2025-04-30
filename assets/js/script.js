@@ -7,9 +7,10 @@ class Producto {
   #precio;
   #año;
   #imagen;
+  #descripcion
   #reservadoHasta;  //propiedad para manejar la reserva
 
-  constructor(tipo, titulo, autor, genero, precio, año, imagen) {
+  constructor(tipo, titulo, autor, genero, precio, año, imagen, descripcion = "") {
     this.#tipo = tipo;
     this.#titulo = titulo;
     this.#autor = autor;
@@ -17,6 +18,7 @@ class Producto {
     this.#precio = precio;
     this.#año = año;
     this.#imagen = imagen;
+    this.#descripcion = descripcion;
     this.#reservadoHasta = null;  //inicialmente no está reservado
   }
   get tipo() { return this.#tipo; }
@@ -26,6 +28,7 @@ class Producto {
   get precio() { return this.#precio; }
   get año() { return this.#año; }
   get imagen() { return this.#imagen; }
+  get descripcion() { return this.#descripcion; }
 
   //método de reserva
   reservarProducto(dias) {
@@ -255,22 +258,18 @@ class CD extends Producto {
 
 let productosActuales = []; // para saber qué productos mostrar luego de una reserva
 
-// FUNCIONES
 function crearTarjeta(producto) {
-  let div = document.createElement("div");
+  const div = document.createElement("div");
   div.innerHTML = producto.contenidoHTML;
 
-  const botonReserva = document.createElement("button"); //creo un boton para reservar
-  botonReserva.textContent = "Reservar por 7 días";
+  const tarjeta = div.querySelector(".producto.card");
+
+  const botonReserva = document.createElement("button");
   botonReserva.classList.add("btn-reservar");
+  botonReserva.textContent = producto.estaReservado ? "Cancelar reserva" : "Reservar por 7 días";
 
-  if (producto.estaReservado) { //el boton cambia cuando se lo presiona
-    botonReserva.textContent = "Cancelar reserva";
-  } else {
-    botonReserva.textContent = "Reservar por 7 dias"
-  }
-
-  botonReserva.addEventListener("click", () => {
+  botonReserva.addEventListener("click", (e) => {
+    e.stopPropagation(); // evita que se abra el modal al hacer click en el botón
     if (producto.estaReservado) {
       producto.cancelarReserva();
       alert("Reserva cancelada");
@@ -278,12 +277,16 @@ function crearTarjeta(producto) {
       producto.reservarProducto(7);
       alert("Producto reservado por 7 días");
     }
-    mostrarProductos(productosActuales); // actualiza la galería entera
+    mostrarProductos(productosActuales);
   });
 
-  div.querySelector(".producto.card").appendChild(botonReserva);
+  tarjeta.appendChild(botonReserva);
 
-  return div;
+  tarjeta.addEventListener("click", () => {
+    abrirModal(producto);
+  });
+
+  return tarjeta;
 }
 
 function mostrarProductos(productos) {
@@ -293,6 +296,26 @@ function mostrarProductos(productos) {
     contenedor.appendChild(crearTarjeta(productos[i]));
   }
 }
+
+// Función que abre el modal y carga contenido
+function abrirModal(producto) {
+  document.getElementById('modal-titulo').textContent = producto.titulo;
+  document.getElementById('modal-descripcion').textContent = producto.descripcion;
+
+  document.getElementById('modal').classList.remove('oculto');
+}
+
+// Cierra el modal al hacer clic en la "x"
+document.getElementById('cerrar-modal').addEventListener('click', () => {
+  document.getElementById('modal').classList.add('oculto');
+});
+
+// También podrías cerrar el modal haciendo clic fuera del contenido
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') {
+    document.getElementById('modal').classList.add('oculto');
+  }
+});
 
 function activarBoton(idActivo) {
   let botones = document.querySelectorAll(".btn-prod");
@@ -371,24 +394,26 @@ document.getElementById("boton3").addEventListener("click", function () {
 mostrarProductos(libros);
 activarBoton("boton1");
 
-// mdn file input, mdn base64 
+// mdn file input, mdn base64 (para mostrar lo que agrega el usuario)
 
 const items = JSON.parse(localStorage.getItem('items')) || [];
 
     const contenedor = document.getElementById('galeria-contenido');
 
     items.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'producto card ';
-      card.innerHTML = `
-  <img src="${item.imagen}" alt="${item.titulo}" style="width:100%; height:auto; border-radius:8px;">
-  <h3>${item.titulo}</h3>
-  <p><strong>Tipo:</strong> ${item.tipo}</p>
-  <p><strong>Autor/Director:</strong> ${item.autor}</p>
-  <p><strong>Año:</strong> ${item.anio}</p>
-  <p>${item.descripcion}</p>
-`;
-      contenedor.appendChild(card);
-    });
+      let producto;
 
+      if (item.tipo === "libro") {
+        producto = new Libro(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.paginas || 0, item.imagen, item.descripcion);
+      } else if (item.tipo === "pelicula") {
+        producto = new Pelicula(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.duracion || 0, item.imagen, item.descripcion);
+      } else if (item.tipo === "cd") {
+        producto = new CD(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.canciones || 0, item.imagen, item.descripcion);
+      } else {
+        // y este seria lo genérico
+        producto = new Producto(item.tipo, item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.imagen, item.descripcion);
+      }
     
+      const tarjeta = crearTarjeta(producto);
+      contenedor.appendChild(tarjeta);
+    });

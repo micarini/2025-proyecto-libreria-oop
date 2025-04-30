@@ -1,81 +1,159 @@
-<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
   <title>Panel de Administración</title>
 </head>
 <body>
-  <h1>Agregar nuevo contenido</h1>
+  <h1 id="agregar" class="txt-c">Agregar nuevo contenido</h1>
 
   <form id="formulario">
-    <input type="text" name="titulo" placeholder="Título" required><br>
-    <select name="tipo" required">
-      <option value="libro">Libro</option>
-      <option value="pelicula">Película</option>
-      <option value="cd">CD</option>
-    </select><br>
+    <div>
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" name="titulo" required>
+    </div>
+    
+    <div>
+      <label for="tipo">Tipo:</label>
+      <select id="tipo" name="tipo" required>
+        <option value="libro">Libro</option>
+        <option value="pelicula">Película</option>
+        <option value="cd">CD</option>
+      </select>
+    </div>
 
-    <label for="autor">Autor / Director / Artista:</label>
-    <input type="text" id="autor" name="autor" required><br><br>
+    <div>
+      <label for="autor">Autor / Director / Artista:</label>
+      <input type="text" id="autor" name="autor" required>
+    </div>
 
-    <label for="anio">Año:</label>
-    <input type="number" id="anio" name="anio"><br><br>
+    <div>
+      <label for="year">Año:</label>
+      <select id="year" name="year" required>
+        <option value="">Selecciona un año</option>
+      </select>
+    </div>
 
-    <label for="descripcion">Descripción:</label><br>
-    <textarea id="descripcion" name="descripcion" rows="4" cols="40"></textarea><br><br>
+    <div>
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4" cols="40"></textarea>
+    </div>
 
-    <input type="file" name="imagen" accept="image/*" required><br>
+    <div>
+      <label for="imagen">Imagen:</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*" required>
+    </div>
 
-    <button type="submit">Guardar</button>
+    <div id="campo-paginas" class="campo-dinamico oculto">
+      <label for="paginas">Páginas:</label>
+      <input type="number" id="paginas" name="paginas" min="1">
+    </div>
+    
+    <div id="campo-duracion" class="campo-dinamico oculto">
+      <label for="duracion">Duración (minutos):</label>
+      <input type="number" id="duracion" name="duracion" min="1">
+    </div>
+    
+    <div id="campo-canciones" class="campo-dinamico oculto">
+      <label for="canciones">Canciones:</label>
+      <input type="number" id="canciones" name="canciones" min="1">
+    </div>
+    
+    <div>
+      <label for="genero">Género:</label>
+      <input type="text" id="genero" name="genero">
+    </div>
+    
+    <div>
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" name="precio" step="0.01" min="0">
+    </div>
+    
+
+    <button id="boton-guardar" type="submit">Guardar</button>
   </form>
 
-  <p id="mensaje" style="color: green;"></p>
+  <p id="mensaje" class="txt-c"></p>
 
-  <br>
-  <a href="index.html">
-    <button>Volver a inicio</button>
-  </a>
+  <a href="index.html" class="volver-inicio" title="Volver al inicio">←</a>
 
   <script>
-    const formulario = document.getElementById('formulario');
+  const formulario = document.getElementById('formulario');
 
-    formulario.addEventListener('submit', function (e) {
-      e.preventDefault();
+  formulario.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-      const titulo = this.titulo.value;
-      const tipo = this.tipo.value;
-      const autor = this.autor.value;
-      const anio = this.anio.value;
-      const descripcion = this.descripcion.value;
-      const imagenInput = this.imagen.files[0];
+    const titulo = this.titulo.value;
+    const tipo = this.tipo.value;
+    const autor = this.autor.value;
+    const year = this.year.value;
+    const descripcion = this.descripcion.value;
+    const imagenInput = this.imagen.files[0];
+    const genero = this.genero.value;
+    const precio = parseFloat(this.precio.value) || 0;
+    const paginas = parseInt(this.paginas.value);
+    const duracion = parseInt(this.duracion.value);
+    const canciones = parseInt(this.canciones.value);
 
-      const reader = new FileReader();
-      reader.onload = function () {
-        const imagenBase64 = reader.result;
+    const reader = new FileReader();
+    reader.onload = function () {
+      const imagenBase64 = reader.result;
 
-        const nuevoItem = {
-          titulo,
-          tipo,
-          autor,
-          anio,
-          descripcion,
-          imagen: imagenBase64 //se guarda como texto base64
-        };
+      const nuevoItem = {
+      titulo,
+      tipo,
+      autor,
+      year,
+      descripcion,
+      imagen: imagenBase64, // se guarda como texto base64
+      genero,
+      precio,
+      paginas,
+      duracion,
+      canciones
+      };
 
-        const items = JSON.parse(localStorage.getItem('items')) || [];
-        items.push(nuevoItem);
-        localStorage.setItem('items', JSON.stringify(items));
+      const items = JSON.parse(localStorage.getItem('items')) || [];
+      items.push(nuevoItem);
+      localStorage.setItem('items', JSON.stringify(items));
 
-        alert('¡Guardado!');
-        formulario.reset();
+      alert('¡Guardado!');
+      formulario.reset();
       };
 
       if (imagenInput) {
         reader.readAsDataURL(imagenInput); // ← lee como base64
       }
-    });
-  </script>
+  });
+
+  const selectYear = document.getElementById("year");
+  const yearActual = new Date().getFullYear();
+
+  for (let i = yearActual; i >= 1900; i--) {
+    const opcion = document.createElement("option");
+    opcion.value = i;
+    opcion.textContent = i;
+    selectYear.appendChild(opcion);
+  }
+
+  const tipoSelect = document.getElementById("tipo");
+  const campoPaginas = document.getElementById("campo-paginas");
+  const campoDuracion = document.getElementById("campo-duracion");
+  const campoCanciones = document.getElementById("campo-canciones");
+
+  tipoSelect.addEventListener("change", () => {
+    const tipo = tipoSelect.value;
+    campoPaginas.classList.add("oculto");
+    campoDuracion.classList.add("oculto");
+    campoCanciones.classList.add("oculto");
+
+    if (tipo === "libro") campoPaginas.classList.remove("oculto");
+    if (tipo === "pelicula") campoDuracion.classList.remove("oculto");
+    if (tipo === "cd") campoCanciones.classList.remove("oculto");
+  });
+
   </script>
 </body>
 </html>
