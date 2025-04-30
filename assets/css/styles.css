@@ -154,17 +154,6 @@ body {
 
 
 /*card admin*/
-.admin-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 1rem;
-  width: 250px;
-  background-color: #f9f9f9;
-}
-.admin-card h3 {
-  margin: 0.5rem 0;
-}
 .contenedor {
   display: flex;
   flex-wrap: wrap;
