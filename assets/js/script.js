@@ -399,7 +399,7 @@ activarBoton("boton1");
 const items = JSON.parse(localStorage.getItem('items')) || [];
 const contenedor = document.getElementById('galeria-contenido');
 
-// Supongamos que quieres diferenciar si la tarjeta es de admin o no
+// diferenciar si la tarjeta es de admin o no
 const esAdmin = true;  // Cambiar a `false` si no es admin
 
 items.forEach(item => {
