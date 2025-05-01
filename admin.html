@@ -77,7 +77,32 @@
 
   <p id="mensaje" class="txt-c"></p>
 
-  <a href="index.html" class="volver-inicio" title="Volver al inicio">←</a>
+  <a href="index.html" class="volver-inicio flex center" title="Volver al inicio">←</a>
+
+  <!-- checkbox que activa el cambio de tema -->
+  <input type="checkbox" id="theme-toggle">
+
+  <!-- BOTON DARK MODE -->
+  <label for="theme-toggle" class="toggle-button flex center">
+      <!-- sol (modo claro) -->
+      <svg class="icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>  <!-- circulo central -->
+      <!-- rayos del sol -->
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+
+      <!-- luna (modo oscuro) -->
+      <svg class="icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+      </svg>
+  </label>
 
   <script>
   const formulario = document.getElementById('formulario');
@@ -153,6 +178,31 @@
     if (tipo === "pelicula") campoDuracion.classList.remove("oculto");
     if (tipo === "cd") campoCanciones.classList.remove("oculto");
   });
+
+
+  /*MODO OSCURO*/
+    const toggleButton = document.getElementById("theme-toggle");
+    const body = document.body;
+
+    // verifico con localStorage si el usuario ya activó el modo oscuro previamente
+    if (localStorage.getItem("modo-oscuro") === "activado") {
+        body.classList.add("modo-oscuro"); //si existe y tiene el valor "activado", se activa el modo oscuro, añadiendo la clase modo-oscuro al body y marcando el checkbox correspondiente.
+        toggleButton.checked = true; // aseguro que el checkbox esté marcado
+    }
+
+    function cambiarModoOscuro() {
+        //el método .classList.toggle() agrega o quita la clase modo-oscuro del elemento body. si la clase no está presente, toggle() la agrega. si la clase ya está presente, toggle() la elimina.
+        body.classList.toggle("modo-oscuro");
+
+        // guarda el estado del modo oscuro en localStorage
+        if (body.classList.contains("modo-oscuro")) {
+            localStorage.setItem("modo-oscuro", "activado"); // guardo que está activo
+        } else {
+            localStorage.removeItem("modo-oscuro"); // si se desactiva, removemos el item
+        }
+    } //cuando el usuario cambia el estado del modo oscuro (marcando o desmarcando el checkbox), la clase modo-oscuro se alterna en el body. si el modo oscuro está activado, se guarda en localStorage con setItem(), de modo que persista. si se desactiva el modo oscuro, se elimina el valor de localStorage con removeItem().
+
+    toggleButton.addEventListener("change", cambiarModoOscuro);
 
   </script>
 </body>

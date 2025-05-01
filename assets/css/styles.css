@@ -146,12 +146,27 @@ body {
   color: #666;
 }
 
+.btn-cerrar {
+  background-color: #dc2626; 
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1em;
+  transition: background-color 0.3s;
+}
+
+.btn-cerrar:hover {
+  background-color: #b91c1c;
+}
+
 .info-producto {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
-
 
 /*card admin*/
 .contenedor {
@@ -175,7 +190,7 @@ body {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  max-width: 400px;
+  max-width: 600px;
   text-align: center;
 }
 
@@ -206,8 +221,7 @@ body {
 }
 
 .boton-agregar:hover {
-  background-color: #45a049;
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(+15deg);
 }
 
 
@@ -276,12 +290,13 @@ a #boton-guardar:hover {
   position: fixed;
   top: 20px;
   left: 20px;
-  background-color: #333;
-  color: white;
+  background: #374151;
+  color: #f3f4f6;
   text-decoration: none;
   font-size: 26px;
   font-weight: bolder;
-  padding: 8px 14px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s, transform 0.2s;
@@ -289,8 +304,7 @@ a #boton-guardar:hover {
 }
 
 .volver-inicio:hover {
-  background-color: #333;
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(-15deg);
 }
 
 .campo-dinamico {
@@ -299,4 +313,113 @@ a #boton-guardar:hover {
 
 .oculto {
   display: none;
+}
+
+
+/*MODO OSCURO*/
+/*boton*/
+#theme-toggle { /* oculta el checkbox */
+  display: none;
+}
+
+.toggle-button:hover { 
+  background: #d1d5db;
+}
+
+.toggle-button { 
+  width: 50px;
+  height: 50px;
+  background: #e5e7eb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.4s;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.icon { 
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  stroke: currentColor; /* usa el color del texto */
+  transition: 0.4s;
+}
+
+.moon { /* oculta el icono de la luna por defecto */
+  opacity: 0;
+  transform: rotate(-180deg);
+}
+
+#theme-toggle:checked+.toggle-button { /* cuando se activa el checkbox, cambia el botón y el fondo */
+  background: #374151;
+  transform: rotate(-180deg); /* rota el botón */
+}
+
+#theme-toggle:checked+.toggle-button .sun { /* oculta el sol y muestra la luna */
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+#theme-toggle:checked+.toggle-button .moon {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+#theme-toggle:checked~body { /* cambia el fondo y el color del texto en modo oscuro */
+  background: #111827;
+  color: #f3f4f6;
+}
+
+body.modo-oscuro {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+body.modo-oscuro .producto.card {
+  background-color: #2b2b2b;
+  border-color: #444;
+  color: #f1f1f1;
+}
+
+body.modo-oscuro .btn-prod {
+  background-color: #444;
+  color: #f1f1f1;
+}
+
+body.modo-oscuro .btn-prod:hover {
+  background-color: #666;
+}
+
+body.modo-oscuro .btn-prod.activo {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+body.modo-oscuro .btn-reservar {
+  background-color: #00b3b3;
+}
+
+body.modo-oscuro .btn-reservar:hover {
+  background-color: #009999;
+}
+
+body.modo-oscuro form {
+  background-color: #2b2b2b;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+body.modo-oscuro input,
+body.modo-oscuro select,
+body.modo-oscuro textarea {
+  background-color: #333;
+  color: #f1f1f1;
+  border: 1px solid #666;
+}
+
+body.modo-oscuro .modal-contenido {
+  background-color: #2b2b2b;
+  color: #f1f1f1;
 }
