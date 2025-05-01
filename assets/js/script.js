@@ -142,9 +142,10 @@ class Libro extends Producto {
 
 class Pelicula extends Producto {
   #duracion;
-  constructor(titulo, director, genero, precio, año, duracion, imagen) {
-    super("pelicula", titulo, director, genero, precio, año, imagen);
+  constructor(titulo, director, genero, precio, año, duracion, imagen, descripcion = "", trailerEmbed = "") {
+    super("pelicula", titulo, director, genero, precio, año, imagen, descripcion);
     this.#duracion = duracion;
+    this.trailerEmbed = trailerEmbed; 
   }
 
   get duracion() {
@@ -202,9 +203,10 @@ class Pelicula extends Producto {
 
 class CD extends Producto {
   #canciones;
-  constructor(titulo, banda, genero, precio, año, canciones, imagen) {
-    super("cd", titulo, banda, genero, precio, año, imagen);
+  constructor(titulo, banda, genero, precio, año, canciones, imagen, descripcion = "", cancionEmbed = "") {
+    super("cd", titulo, banda, genero, precio, año, imagen, descripcion);
     this.#canciones = canciones;
+    this.cancionEmbed = cancionEmbed;
   }
 
   get canciones() {
@@ -339,33 +341,33 @@ let libros = [
 ];
 
 let cds = [
-  new CD("The 1975", "The 1975", "Electronic", 12.99, 2013, 16, "assets/images/the1975.png"),
-  new CD("Clics Modernos", "Charly Garcia", "Rock", 14.99, 1983, 9, "assets/images/clicsmodernos.jpg"),
-  new CD("Clancy", "Twenty One Pilots", "Alternative", 20.00, 2024, 13, "assets/images/clancy.png"),
-  new CD("Folklore", "Taylor Swift", "Alternative", 12.5, 2020, 16, "assets/images/folklore.png"),
-  new CD("IGOR", "Tyler,The Creator", "Hip-Hop", 14.39, 2019, 12, "assets/images/igor.jpg"),
-  new CD("Melodrama", "Lorde", "Alternative", 23.00, 2017, 11, "assets/images/melodrama.webp"),
-  new CD("Punisher", "Phoebe Bridgers", "Indie Rock", 13.2, 2020, 11, "assets/images/punisher.png"),
-  new CD("The Tortured Poets Department", "Taylor Swift", "Synth Pop", 35.00, 2024, 16, "assets/images/ttpd.png"),
-  new CD("Abbey Road", "The Beatles", "Rock", 14.00, 1969, 17, "assets/images/abbeyroad.jpg"),
-  new CD("SOS", "SZA", "Hip-hop", 27.82, 2022, 23, "assets/images/sos.png"),
-  new CD("POST MORTEM", "Dillom", "Hip-Hop", 23.65, 2021, 18, "assets/images/postmortem.jpg"),
-  new CD("Short n' Sweet", "Sabrina Carpenter", "Pop", 44.30, 2024, 12, "assets/images/shortnsweet.webp")
+  new CD("The 1975", "The 1975", "Electronic", 12.99, 2013, 16, "assets/images/the1975.png", "'The 1975', by the band of the same name, is a self-titled debut album that blends electropop, funk rock, and indie rock influences, showcasing the band's adventurous and shape-shifting musical style. It features a mix of indie pop, alt-rock, and dreamy interludes, with lyrics that explore themes of sex, love, and fear. ",`<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1361258134&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/the1975" title="the1975" target="_blank" style="color: #cccccc; text-decoration: none;">the1975</a> · <a href="https://soundcloud.com/the1975/oh-caroline" title="Oh Caroline" target="_blank" style="color: #cccccc; text-decoration: none;">Oh Caroline</a></div>`),
+  new CD("Clics Modernos", "Charly Garcia", "Rock", 14.99, 1983, 9, "assets/images/clicsmodernos.jpg", "Es un álbum emblemático que marcó un punto de inflexión en su carrera, explorando nuevos sonidos y ritmos, incluyendo el uso de máquinas de ritmo. Es conocido por su contenido lírico, que refleja la realidad social y política de la época, especialmente en canciones como 'Los Dinosaurios'. El álbum también destaca por su innovación musical y su impacto en la escena del rock argentino. ", `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1183381234&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/xy_xy" title="Flexaxy" target="_blank" style="color: #cccccc; text-decoration: none;">Flexaxy</a> · <a href="https://soundcloud.com/xy_xy/charly-garcia-clics-modernos-1983" title="Charly García - Clics Modernos (1983)" target="_blank" style="color: #cccccc; text-decoration: none;">Charly García - Clics Modernos (1983)</a></div>`),
+  new CD("Clancy", "Twenty One Pilots", "Alternative", 20.00, 2024, 13, "assets/images/clancy.png", "Clancy is Twenty One Pilots' seventh studio album, released in May 2024. It's the concluding installment in their conceptual narrative series, beginning with 'Blurryface' and culminating in 'Clancy'. The album explores themes of mental health, addiction, fame, and escaping a dystopian world called DEMA. It blends various musical styles, including alternative rock, pop rock, hip hop, and synth-pop. ", `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1806334068&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/twentyonepilots" title="twentyonepilots" target="_blank" style="color: #cccccc; text-decoration: none;">twentyonepilots</a> · <a href="https://soundcloud.com/twentyonepilots/backslide" title="Backslide" target="_blank" style="color: #cccccc; text-decoration: none;">Backslide</a></div>`),
+  new CD("Folklore", "Taylor Swift", "Alternative", 12.5, 2020, 16, "assets/images/folklore.png", "It is a 2020 release characterized by its indie-folk sound and introspective themes, exploring ideas of escapism and storytelling during the COVID-19 pandemic. It deviates from Swift's usual pop style, featuring mellow ballads with piano, guitars, and strings. The album weaves together fictional narratives, including a love triangle between fictional characters, and draws inspiration from Swift's home and family history. ", `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1041449656&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/officialmusicland" title="Music Land!" target="_blank" style="color: #cccccc; text-decoration: none;">Music Land!</a> · <a href="https://soundcloud.com/officialmusicland/august-acoustic" title="august (Acoustic)" target="_blank" style="color: #cccccc; text-decoration: none;">august (Acoustic)</a></div>`),
+  new CD("IGOR", "Tyler,The Creator", "Hip-Hop", 14.39, 2019, 12, "assets/images/igor.jpg", "It is a concept album exploring a love triangle and the emotional journey of a love interest. The album follows a narrative arc, beginning with the initial spark of attraction, progressing through periods of hope and heartbreak, and culminating in acceptance and a possible friendship. It's characterized by a blend of hip-hop, neo-soul, R&B, funk, and pop, with a focus on synth-heavy production and lo-fi vocals. ", `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/621622326&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/tylerthecreatorofficial" title="Tyler, The Creator" target="_blank" style="color: #cccccc; text-decoration: none;">Tyler, The Creator</a> · <a href="https://soundcloud.com/tylerthecreatorofficial/earfquake" title="EARFQUAKE" target="_blank" style="color: #cccccc; text-decoration: none;">EARFQUAKE</a></div>`),
+  new CD("Melodrama", "Lorde", "Alternative", 23.00, 2017, 11, "assets/images/melodrama.webp", "It is a loose concept album exploring themes of solitude and heartbreak, framed around a single house party. It's known for its maximalist sound, moving away from the minimalist style of her debut album, Pure Heroine. The album features songs like Green Light, Supercut, and Liability, which delve into the emotional rollercoaster of a breakup and the search for identity in the face of solitude. ", `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/310382926&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/lordemusic" title="LordeMusic" target="_blank" style="color: #cccccc; text-decoration: none;">LordeMusic</a> · <a href="https://soundcloud.com/lordemusic/green-light" title="Green Light" target="_blank" style="color: #cccccc; text-decoration: none;">Green Light</a></div>`),
+  new CD("Punisher", "Phoebe Bridgers", "Indie Rock", 13.2, 2020, 11, "assets/images/punisher.png", "", ``),
+  new CD("The Tortured Poets Department", "Taylor Swift", "Synth Pop", 35.00, 2024, 16, "assets/images/ttpd.png", "", ``),
+  new CD("Abbey Road", "The Beatles", "Rock", 14.00, 1969, 17, "assets/images/abbeyroad.jpg", "", ``),
+  new CD("SOS", "SZA", "Hip-hop", 27.82, 2022, 23, "assets/images/sos.png", "", ``),
+  new CD("POST MORTEM", "Dillom", "Hip-Hop", 23.65, 2021, 18, "assets/images/postmortem.jpg", "", ``),
+  new CD("Short n' Sweet", "Sabrina Carpenter", "Pop", 44.30, 2024, 12, "assets/images/shortnsweet.webp", "", ``)
 ];
 
 let peliculas = [
-  new Pelicula("Interstellar", "Christopher Nolan", "Science Fiction", 9.30, 2014, 169, "assets/images/interstellar.jpg"),
-  new Pelicula("Star Wars: A New Hope", "George Lucas", "Science Fiction", 7.99, 1977, 121, "assets/images/starwars.jpg"),
-  new Pelicula("My Neighbor Totoro", "Hayao Miyazaki", "Fantasy", 10.99, 1988, 86, "assets/images/totoro.jpg"),
-  new Pelicula("Eternal Sunshine of the Spotless Mind", "Michel Gondry", "Science Fiction", 9.99, 2004, 108, "assets/images/eternalsunshine.jpg"),
-  new Pelicula("Top Gun: Maverick", "Joseph Kosinski", "Action", 15.99, 2022, 8, "assets/images/maverick.jpg"),
-  new Pelicula("Lady Bird", "Greta Gerwig", "Comedy", 7.5, 2017, 94, "assets/images/ladybird.jpg"),
-  new Pelicula("La La Land", "Damien Chazelle", "Drama", 9.2, 2016, 129, "assets/images/lalaland.webp"),
-  new Pelicula("Whiplash", "Damien Chazelle", "Drama", 9.2, 2014, 107, "assets/images/whiplash.jpg"),
-  new Pelicula("The Royal Tenenbaums", "Wes Anderson", "Drama", 5.00, 2001, 110, "assets/images/royaltenenbaums.jpg"),
-  new Pelicula("10 Things I Hate About You", "Gil Junger", "Comedy", 9.99, 1999, 97, "assets/images/tenthings.jpg"),
-  new Pelicula("When Evil Lurks", "Demián Rugna", "Horror", 8.99, 2023, 100, "assets/images/whenevillurks.jpg"),
-  new Pelicula("I, Tonya","Craig Gillespie", "Comedy", 13.99, 2017, 120, "assets/images/itonya.jpg"),
+  new Pelicula("Interstellar", "Christopher Nolan", "Science Fiction", 9.30, 2014, 169, "assets/images/interstellar.jpg", "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.", `<iframe width="100%" height="315" src="https://www.youtube.com/embed/zSWdZVtXT7E?si=z3d3sN79iqJEx59t" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`),
+  new Pelicula("Star Wars: A New Hope", "George Lucas", "Science Fiction", 7.99, 1977, 121, "assets/images/starwars.jpg", "", `<iframe width="560" height="315" src="https://www.youtube.com/embed/vZ734NWnAHA?si=gqJ2TScX4ABAr0hD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`),
+  new Pelicula("My Neighbor Totoro", "Hayao Miyazaki", "Fantasy", 10.99, 1988, 86, "assets/images/totoro.jpg", "", ``),
+  new Pelicula("Eternal Sunshine of the Spotless Mind", "Michel Gondry", "Science Fiction", 9.99, 2004, 108, "assets/images/eternalsunshine.jpg", "", ``),
+  new Pelicula("Top Gun: Maverick", "Joseph Kosinski", "Action", 15.99, 2022, 8, "assets/images/maverick.jpg", "", ``),
+  new Pelicula("Lady Bird", "Greta Gerwig", "Comedy", 7.5, 2017, 94, "assets/images/ladybird.jpg", "", ``),
+  new Pelicula("La La Land", "Damien Chazelle", "Drama", 9.2, 2016, 129, "assets/images/lalaland.webp", "", ``),
+  new Pelicula("Whiplash", "Damien Chazelle", "Drama", 9.2, 2014, 107, "assets/images/whiplash.jpg", "", ``),
+  new Pelicula("The Royal Tenenbaums", "Wes Anderson", "Drama", 5.00, 2001, 110, "assets/images/royaltenenbaums.jpg", "", ``),
+  new Pelicula("10 Things I Hate About You", "Gil Junger", "Comedy", 9.99, 1999, 97, "assets/images/tenthings.jpg", "", ``),
+  new Pelicula("When Evil Lurks", "Demián Rugna", "Horror", 8.99, 2023, 100, "assets/images/whenevillurks.jpg", "", ``),
+  new Pelicula("I, Tonya","Craig Gillespie", "Comedy", 13.99, 2017, 120, "assets/images/itonya.jpg", "", ``),
 ];
 
 //EVENTOS
@@ -423,6 +425,19 @@ function abrirModal(producto) {
   document.getElementById('modal-titulo').textContent = producto.titulo;
   document.getElementById('modal-descripcion').textContent = producto.descripcion || "Descripción no disponible";
 
+  const modalExtra = document.createElement('div');
+  modalExtra.id = "modal-extra";
+
+  if (producto.tipo === "cd" && producto.cancionEmbed) {
+    modalExtra.innerHTML = `<div class="embed-wrapper">${producto.cancionEmbed}</div>`;
+  }
+
+  if (producto.tipo === "pelicula" && producto.trailerEmbed) {
+    modalExtra.innerHTML = `<div class="embed-wrapper">${producto.trailerEmbed}</div>`;
+  }
+
+  document.getElementById('modal-descripcion').appendChild(modalExtra);
+  
   document.getElementById('modal').classList.remove('oculto');
 }
 
