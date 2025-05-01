@@ -402,27 +402,15 @@ items.forEach(item => {
   let producto;
 
   if (item.tipo === "libro") {
-    producto = new Libro(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.paginas || 0, item.imagen, item.descripcion);
+    producto = new Libro(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.paginas || 0, item.imagen, item.descripcion, item.libroEmbed || "");
+    libros.push(producto);
   } else if (item.tipo === "pelicula") {
-    producto = new Pelicula(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.duracion || 0, item.imagen, item.descripcion);
+    producto = new Pelicula(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.duracion || 0, item.imagen, item.descripcion, item.trailerEmbed || "");
+    peliculas.push(producto);
   } else if (item.tipo === "cd") {
-    producto = new CD(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.canciones || 0, item.imagen, item.descripcion);
-  } else {
-    // y este sería lo genérico
-    producto = new Producto(item.tipo, item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.imagen, item.descripcion);
+    producto = new CD(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.canciones || 0, item.imagen, item.descripcion, item.cancionEmbed || "");
+    cds.push(producto);
   }
-
-  // pasar `esAdmin` a la función `crearTarjeta`
-  const tarjeta = crearTarjeta(producto, esAdmin); // Ahora la función recibe un argumento que indica si es admin
-  
-  if (item.tipo === "libro") {
-    contenedorlibros.appendChild(tarjeta);
-  } else if (item.tipo === "pelicula") {
-    contenedorpeliculas.appendChild(tarjeta);
-  } else if (item.tipo === "cd") {
-    contenedorcds.appendChild(tarjeta);
-  }  
-
 });
 
 //Cierra el modal al hacer clic en la "x"
