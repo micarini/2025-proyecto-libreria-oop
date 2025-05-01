@@ -437,3 +437,7 @@ body.modo-oscuro .modal-contenido {
   background-color: #2b2b2b;
   color: #f1f1f1;
 }
+
+body.modo-oscuro #agregar {
+  color: white;
+}
