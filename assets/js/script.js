@@ -75,12 +75,10 @@ class Producto {
 
 class Libro extends Producto {
   #paginas;
-  #descripcion; 
 
-  constructor(titulo, autor, genero, precio, año, paginas, imagen, descripcion, libroEmbed = "") {
-    super("libro", titulo, autor, genero, precio, año, imagen);
+  constructor(titulo, autor, genero, precio, año, paginas, imagen, descripcion = "", libroEmbed = "") {
+    super("libro", titulo, autor, genero, precio, año, imagen, descripcion);
     this.#paginas = paginas;
-    this.#descripcion = descripcion;  
     this.libroEmbed = libroEmbed;
   }
 
@@ -91,10 +89,6 @@ class Libro extends Producto {
   set paginas(valor) {
     if (Number.isInteger(valor) && valor > 0) this.#paginas = valor;
     else console.error("Las páginas deben ser un número entero positivo");
-  }
-
-  get descripcion() {
-    return this.#descripcion;  //este getter permite acceder a la descripción privada
   }
 
   get contenidoHTML() {
@@ -394,13 +388,15 @@ document.getElementById("boton3").addEventListener("click", function () {
 mostrarProductos(libros);
 activarBoton("boton1");
 
-//buscar mdn file input, mdn base64 (para mostrar lo que agrega el usuario)
+// mdn file input, mdn base64 (para mostrar lo que agrega el usuario)
 
 const items = JSON.parse(localStorage.getItem('items')) || [];
-const contenedor = document.getElementById('galeria-contenido');
+const contenedorlibros = document.getElementById('contenedor-libros');
+const contenedorpeliculas = document.getElementById('contenedor-peliculas');
+const contenedorcds = document.getElementById('contenedor-cds');
 
 // diferenciar si la tarjeta es de admin o no
-const esAdmin = true;  // Cambiar a `false` si no es admin
+const esAdmin = true;  // cambiar a `false` si no es admin
 
 items.forEach(item => {
   let producto;
@@ -418,7 +414,15 @@ items.forEach(item => {
 
   // pasar `esAdmin` a la función `crearTarjeta`
   const tarjeta = crearTarjeta(producto, esAdmin); // Ahora la función recibe un argumento que indica si es admin
-  contenedor.appendChild(tarjeta);  
+  
+  if (item.tipo === "libro") {
+    contenedorlibros.appendChild(tarjeta);
+  } else if (item.tipo === "pelicula") {
+    contenedorpeliculas.appendChild(tarjeta);
+  } else if (item.tipo === "cd") {
+    contenedorcds.appendChild(tarjeta);
+  }  
+
 });
 
 //Cierra el modal al hacer clic en la "x"

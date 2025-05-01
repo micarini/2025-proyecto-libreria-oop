@@ -121,8 +121,7 @@ body {
   color: #fff;
 }
 
-#galeria-contenido {
-  flex-wrap: wrap;
+#galeria-contenido, #contenedor-libros, #contenedor-peliculas, #contenedor-cds {
   padding: 20px;
   gap: 20px;
 }
