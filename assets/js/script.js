@@ -7,7 +7,7 @@ class Producto {
   #precio;
   #año;
   #imagen;
-  #descripcion
+  #descripcion;
   #reservadoHasta;  //propiedad para manejar la reserva
 
   constructor(tipo, titulo, autor, genero, precio, año, imagen, descripcion = "") {
@@ -77,9 +77,12 @@ class Producto {
 
 class Libro extends Producto {
   #paginas;
-  constructor(titulo, autor, genero, precio, año, paginas, imagen) {
+  #descripcion; 
+
+  constructor(titulo, autor, genero, precio, año, paginas, imagen, descripcion) {
     super("libro", titulo, autor, genero, precio, año, imagen);
     this.#paginas = paginas;
+    this.#descripcion = descripcion;  
   }
 
   get paginas() {
@@ -89,6 +92,10 @@ class Libro extends Producto {
   set paginas(valor) {
     if (Number.isInteger(valor) && valor > 0) this.#paginas = valor;
     else console.error("Las páginas deben ser un número entero positivo");
+  }
+
+  get descripcion() {
+    return this.#descripcion;  //este getter permite acceder a la descripción privada
   }
 
   get contenidoHTML() {
@@ -256,7 +263,7 @@ class CD extends Producto {
   
 }
 
-let productosActuales = []; // para saber qué productos mostrar luego de una reserva
+let productosActuales = []; //para saber qué productos mostrar luego de una reserva
 
 function crearTarjeta(producto) {
   const div = document.createElement("div");
@@ -264,12 +271,22 @@ function crearTarjeta(producto) {
 
   const tarjeta = div.querySelector(".producto.card");
 
+ // Aquí añadimos el botón "Cerrar" solo para la administración
+ const botonCerrar = document.createElement("button");
+ botonCerrar.classList.add("btn-cerrar");
+ botonCerrar.textContent = "Cerrar";
+
+ botonCerrar.addEventListener("click", (e) => {
+  e.stopPropagation(); // Para evitar efectos adicionales
+  tarjeta.remove(); // Eliminar la tarjeta de administración
+});
+
   const botonReserva = document.createElement("button");
   botonReserva.classList.add("btn-reservar");
   botonReserva.textContent = producto.estaReservado ? "Cancelar reserva" : "Reservar por 7 días";
 
   botonReserva.addEventListener("click", (e) => {
-    e.stopPropagation(); // evita que se abra el modal al hacer click en el botón
+    e.stopPropagation(); //evita que se abra el modal al hacer click en el botón
     if (producto.estaReservado) {
       producto.cancelarReserva();
       alert("Reserva cancelada");
@@ -281,12 +298,15 @@ function crearTarjeta(producto) {
   });
 
   tarjeta.appendChild(botonReserva);
+  tarjeta.appendChild(botonCerrar);
 
   tarjeta.addEventListener("click", () => {
     abrirModal(producto);
   });
 
   return tarjeta;
+
+  
 }
 
 function mostrarProductos(productos) {
@@ -297,25 +317,6 @@ function mostrarProductos(productos) {
   }
 }
 
-// Función que abre el modal y carga contenido
-function abrirModal(producto) {
-  document.getElementById('modal-titulo').textContent = producto.titulo;
-  document.getElementById('modal-descripcion').textContent = producto.descripcion;
-
-  document.getElementById('modal').classList.remove('oculto');
-}
-
-// Cierra el modal al hacer clic en la "x"
-document.getElementById('cerrar-modal').addEventListener('click', () => {
-  document.getElementById('modal').classList.add('oculto');
-});
-
-// También podrías cerrar el modal haciendo clic fuera del contenido
-document.getElementById('modal').addEventListener('click', e => {
-  if (e.target.id === 'modal') {
-    document.getElementById('modal').classList.add('oculto');
-  }
-});
 
 function activarBoton(idActivo) {
   let botones = document.querySelectorAll(".btn-prod");
@@ -325,20 +326,20 @@ function activarBoton(idActivo) {
   document.getElementById(idActivo).classList.add("activo");
 }
 
-// DATOS
+//DATOS
 let libros = [
-  new Libro("Normal People", "Sally Rooney", "Literary Fiction", 20.76, 2019, 266, "assets/images/normalpeople.jpg"),
-  new Libro("Daisy Jones & The Six", "Taylor Jenkins Reid", "Historical Fiction", 20.76, 2019, 384, "assets/images/daisyjones.jpg"),
-  new Libro("The Priory of the Orange Tree", "Samantha Shannon", "Fantasy", 15.99, 1949, 328, "assets/images/priory.jpg"),
-  new Libro("Pride & Prejudice", "Jane Austen", "Romance", 11.00, 1813, 279, "assets/images/prideandprejudice.jpg"),
-  new Libro("The Perks of Being a Wallflower", "Stephen Chbosky", "Young Adult", 13.25, 2009, 237, "assets/images/perksofbeing.jpg"),
-  new Libro("Everything I Know About Love", "Dolly Alderton", "Nonfiction", 12.23, 2018, 368, "assets/images/love.jpg"),
-  new Libro("The Seven Husbands of Evelyn Hugo", "Taylor Jenkins Reid", "Romance", 9.99, 2017, 389, "assets/images/evelyn.webp"),
-  new Libro("Ready Player One", "Ernest Cline", "Science Fiction", 7.99, 2011, 374, "assets/images/readyplayerone.jpg"),
-  new Libro("Six of Crows", "Leigh Bardugo", "Fantasy", 16.5, 2015, 495, "assets/images/sixofcrows.jpg"),
-  new Libro("The Bell Jar", "Sylvia Plath", "Autobiography", 12.10, 2006, 288, "assets/images/thebelljar.webp"),
-  new Libro("The Outsiders", "S.E. Hinton", "Classics", 8.99, 1967, 214, "assets/images/theoutsiders.png"),
-  new Libro("Tomorrow, and Tomorrow, and Tomorrow", "Gabrielle Zevin", "Literary Fiction", 13.99, 2022, 401, "assets/images/tomorrowx3.jpg")
+  new Libro("Normal People", "Sally Rooney", "Literary Fiction", 20.76, 2019, 266, "assets/images/normalpeople.jpg", "At school Connell and Marianne pretend not to know each other. He’s popular and well-adjusted, star of the school soccer team while she is lonely, proud, and intensely private. But when Connell comes to pick his mother up from her housekeeping job at Marianne’s house, a strange and indelible connection grows between the two teenagers - one they are determined to conceal. A year later, they’re both studying at Trinity College in Dublin. Marianne has found her feet in a new social world while Connell hangs at the sidelines, shy and uncertain. Throughout their years in college, Marianne and Connell circle one another, straying toward other people and possibilities but always magnetically, irresistibly drawn back together. Then, as she veers into self-destruction and he begins to search for meaning elsewhere, each must confront how far they are willing to go to save the other."),
+  new Libro("Daisy Jones & The Six", "Taylor Jenkins Reid", "Historical Fiction", 20.76, 2019, 384, "assets/images/daisyjones.jpg", "Everyone knows DAISY JONES & THE SIX, but nobody knows the reason behind their split at the absolute height of their popularity . . . until now. Daisy is a girl coming of age in L.A. in the late sixties, sneaking into clubs on the Sunset Strip, sleeping with rock stars, and dreaming of singing at the Whisky a Go Go. The sex and drugs are thrilling, but it’s the rock ’n’ roll she loves most. By the time she’s twenty, her voice is getting noticed, and she has the kind of heedless beauty that makes people do crazy things. lso getting noticed is The Six, a band led by the brooding Billy Dunne. On the eve of their first tour, his girlfriend Camila finds out she’s pregnant, and with the pressure of impending fatherhood and fame, Billy goes a little wild on the road. Daisy and Billy cross paths when a producer realizes that the key to supercharged success is to put the two together. What happens next will become the stuff of legend. The making of that legend is chronicled in this riveting and unforgettable novel, written as an oral history of one of the biggest bands of the seventies. Taylor Jenkins Reid is a talented writer who takes her work to a new level with Daisy Jones & The Six, brilliantly capturing a place and time in an utterly distinctive voice."),
+  new Libro("The Priory of the Orange Tree", "Samantha Shannon", "Fantasy", 15.99, 1949, 328, "assets/images/priory.jpg", "A world divided. A queendom without an heir. An ancient enemy awakens. The House of Berethnet has ruled Inys for a thousand years. Still unwed, Queen Sabran the Ninth must conceive a daughter to protect her realm from destruction – but assassins are getting closer to her door. Ead Duryan is an outsider at court. Though she has risen to the position of lady-in-waiting, she is loyal to a hidden society of mages. Ead keeps a watchful eye on Sabran, secretly protecting her with forbidden magic. Across the dark sea, Tané has trained to be a dragonrider since she was a child, but is forced to make a choice that could see her life unravel. Meanwhile, the divided East and West refuse to parley, and forces of chaos are rising from their sleep."),
+  new Libro("Pride & Prejudice", "Jane Austen", "Romance", 11.00, 1813, 279, "assets/images/prideandprejudice.jpg", "Pride and Prejudice has charmed generations of readers for more than two centuries. Jane Austen's much-adapted novel is famed for its witty, spirited heroine, sensational romances, and deft remarks on the triumphs and pitfalls of social convention. Author Jane Austen (1775-1817) was an English novelist whose works of social realism achieved unprecedented critical and popular success, though Austen herself remained an anonymous writer throughout her life."),
+  new Libro("The Perks of Being a Wallflower", "Stephen Chbosky", "Young Adult", 13.25, 2009, 237, "assets/images/perksofbeing.jpg", "standing on the fringes of life...offers a unique perspective. But there comes a time to see what it looks like from the dance floor. This haunting novel about the dilemma of passivity vs. passion marks the stunning debut of a provocative new voice in contemporary fiction: The Perks of Being A WALLFLOWER. This is the story of what it's like to grow up in high school. More intimate than a diary, Charlie's letters are singular and unique, hilarious and devastating. We may not know where he lives. We may not know to whom he is writing. All we know is the world he shares. Caught between trying to live his life and trying to run from it puts him on a strange course through uncharted territory. The world of first dates and mixed tapes, family dramas and new friends. The world of sex, drugs, and The Rocky Horror Picture Show, when all one requires is that the perfect song on that perfect drive to feel infinite. Through Charlie, Stephen Chbosky has created a deeply affecting coming-of-age story, a powerful novel that will spirit you back to those wild and poignant roller coaster days known as growing up."),
+  new Libro("Everything I Know About Love", "Dolly Alderton", "Nonfiction", 12.23, 2018, 368, "assets/images/love.jpg", "The wildly funny, occasionally heartbreaking internationally bestselling memoir about growing up, growing older, and learning to navigate friendships, jobs, loss, and love along the ride. When it comes to the trials and triumphs of becoming an adult, journalist and former Sunday Times columnist Dolly Alderton has seen and tried it all. In her memoir, she vividly recounts falling in love, finding a job, getting drunk, getting dumped, realizing that Ivan from the corner shop might just be the only reliable man in her life, and that absolutely no one can ever compare to her best girlfriends. Everything I Know About Love is about bad dates, good friends and—above all else— realizing that you are enough. Glittering with wit and insight, heart and humor, Dolly Alderton’s unforgettable debut weaves together personal stories, satirical observations, a series of lists, recipes, and other vignettes that will strike a chord of recognition with women of every age—making you want to pick up the phone and tell your best friends all about it. Like Bridget Jones’ Diary but all true, Everything I Know About Love is about the struggles of early adulthood in all its terrifying and hopeful uncertainty."),
+  new Libro("The Seven Husbands of Evelyn Hugo", "Taylor Jenkins Reid", "Romance", 9.99, 2017, 389, "assets/images/evelyn.webp", "Aging and reclusive Hollywood movie icon Evelyn Hugo is finally ready to tell the truth about her glamorous and scandalous life. But when she chooses unknown magazine reporter Monique Grant for the job, no one is more astounded than Monique herself. Why her? Why now?. Monique is not exactly on top of the world. Her husband has left her, and her professional life is going nowhere. Regardless of why Evelyn has selected her to write her biography, Monique is determined to use this opportunity to jumpstart her career. Summoned to Evelyn’s luxurious apartment, Monique listens in fascination as the actress tells her story. From making her way to Los Angeles in the 1950s to her decision to leave show business in the ‘80s, and, of course, the seven husbands along the way, Evelyn unspools a tale of ruthless ambition, unexpected friendship, and a great forbidden love. Monique begins to feel a very real connection to the legendary star, but as Evelyn’s story nears its conclusion, it becomes clear that her life intersects with Monique’s own in tragic and irreversible ways."),
+  new Libro("Ready Player One", "Ernest Cline", "Science Fiction", 7.99, 2011, 374, "assets/images/readyplayerone.jpg", "IN THE YEAR 2044, reality is an ugly place. The only time teenage Wade Watts really feels alive is when he's jacked into the virtual utopia known as the OASIS. Wade's devoted his life to studying the puzzles hidden within this world's digital confines, puzzles that are based on their creator's obsession with the pop culture of decades past and that promise massive power and fortune to whoever can unlock them. But when Wade stumbles upon the first clue, he finds himself beset by players willing to kill to take this ultimate prize. The race is on, and if Wade's going to survive, he'll have to win—and confront the real world he's always been so desperate to escape."),
+  new Libro("Six of Crows", "Leigh Bardugo", "Fantasy", 16.5, 2015, 495, "assets/images/sixofcrows.jpg", "etterdam: a bustling hub of international trade where anything can be had for the right price—and no one knows that better than criminal prodigy Kaz Brekker. Kaz is offered a chance at a deadly heist that could make him rich beyond his wildest dreams. But he can’t pull it off alone... A convict with a thirst for revenge. A sharpshooter who can’t walk away from a wager. A runaway with a privileged past. A spy known as the Wraith. A Heartrender using her magic to survive the slums. A thief with a gift for unlikely escapes. Six dangerous outcasts. One impossible heist. Kaz’s crew is the only thing that might stand between the world and destruction—if they don’t kill each other first."),
+  new Libro("The Bell Jar", "Sylvia Plath", "Autobiography", 12.10, 2006, 288, "assets/images/thebelljar.webp", "The Bell Jar chronicles the crack-up of Esther Greenwood: brilliant, beautiful, enormously talented, and successful, but slowly going under -- maybe for the last time. Sylvia Plath masterfully draws the reader into Esther's breakdown with such intensity that Esther's insanity becomes completely real and even rational, as probable and accessible an experience as going to the movies. Such deep penetration into the dark and harrowing corners of the psyche is an extraordinary accomplishment and has made The Bell Jar a haunting American classic."),
+  new Libro("The Outsiders", "S.E. Hinton", "Classics", 8.99, 1967, 214, "assets/images/theoutsiders.png", "No one ever said life was easy. But Ponyboy is pretty sure that he's got things figured out. He knows that he can count on his brothers, Darry and Sodapop. And he knows that he can count on his friends - true friends who would do anything for him, like Johnny and Two-Bit. And when it comes to the beating up on greasers like him and his friends - he knows that he can count on them for trouble. But one night someone takes things too far, and Ponyboy's world is turned upside down..."),
+  new Libro("Tomorrow, and Tomorrow, and Tomorrow", "Gabrielle Zevin", "Literary Fiction", 13.99, 2022, 401, "assets/images/tomorrowx3.jpg", "In this exhilarating novel, two friends—often in love, but never lovers—come together as creative partners in the world of video game design, where success brings them fame, joy, tragedy, duplicity, and, ultimately, a kind of immortality. On a bitter-cold day, in the December of his junior year at Harvard, Sam Masur exits a subway car and sees, amid the hordes of people waiting on the platform, Sadie Green. He calls her name. For a moment, she pretends she hasn't heard him, but then, she turns, and a game begins: a legendary collaboration that will launch them to stardom. These friends, intimates since childhood, borrow money, beg favors, and, before even graduating college, they have created their first blockbuster, Ichigo. Overnight, the world is theirs. Not even twenty-five years old, Sam and Sadie are brilliant, successful, and rich, but these qualities won't protect them from their own creative ambitions or the betrayals of their hearts. Spanning thirty years, from Cambridge, Massachusetts, to Venice Beach, California, and lands in between and far beyond, Gabrielle Zevin's Tomorrow, and Tomorrow, and Tomorrow is a dazzling and intricately imagined novel that examines the multifarious nature of identity, disability, failure, the redemptive possibilities in play, and above all, our need to connect: to be loved and to love. Yes, it is a love story, but it is not one you have read before.")
 ];
 
 let cds = [
@@ -371,7 +372,7 @@ let peliculas = [
   new Pelicula("I, Tonya","Craig Gillespie", "Comedy", 13.99, 2017, 120, "assets/images/itonya.jpg"),
 ];
 
-// EVENTOS
+//EVENTOS
 document.getElementById("boton1").addEventListener("click", function () {
   productosActuales = libros;
   mostrarProductos(libros);
@@ -390,30 +391,57 @@ document.getElementById("boton3").addEventListener("click", function () {
   activarBoton("boton3");
 });
 
-// MOSTRAR LIBROS AL INICIO
+//MOSTRAR LIBROS AL INICIO
 mostrarProductos(libros);
 activarBoton("boton1");
 
-// mdn file input, mdn base64 (para mostrar lo que agrega el usuario)
+//buscar mdn file input, mdn base64 (para mostrar lo que agrega el usuario)
 
 const items = JSON.parse(localStorage.getItem('items')) || [];
+const contenedor = document.getElementById('galeria-contenido');
 
-    const contenedor = document.getElementById('galeria-contenido');
+// Supongamos que quieres diferenciar si la tarjeta es de admin o no
+const esAdmin = true;  // Cambiar a `false` si no es admin
 
-    items.forEach(item => {
-      let producto;
+items.forEach(item => {
+  let producto;
 
-      if (item.tipo === "libro") {
-        producto = new Libro(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.paginas || 0, item.imagen, item.descripcion);
-      } else if (item.tipo === "pelicula") {
-        producto = new Pelicula(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.duracion || 0, item.imagen, item.descripcion);
-      } else if (item.tipo === "cd") {
-        producto = new CD(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.canciones || 0, item.imagen, item.descripcion);
-      } else {
-        // y este seria lo genérico
-        producto = new Producto(item.tipo, item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.imagen, item.descripcion);
-      }
-    
-      const tarjeta = crearTarjeta(producto);
-      contenedor.appendChild(tarjeta);
-    });
+  if (item.tipo === "libro") {
+    producto = new Libro(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.paginas || 0, item.imagen, item.descripcion);
+  } else if (item.tipo === "pelicula") {
+    producto = new Pelicula(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.duracion || 0, item.imagen, item.descripcion);
+  } else if (item.tipo === "cd") {
+    producto = new CD(item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.canciones || 0, item.imagen, item.descripcion);
+  } else {
+    // y este sería lo genérico
+    producto = new Producto(item.tipo, item.titulo, item.autor, item.genero, item.precio, parseInt(item.year), item.imagen, item.descripcion);
+  }
+
+  // Pasar `esAdmin` a la función `crearTarjeta`
+  const tarjeta = crearTarjeta(producto, esAdmin); // Ahora la función recibe un argumento que indica si es admin
+  contenedor.appendChild(tarjeta);
+
+  
+});
+
+//Función que abre el modal y carga contenido
+function abrirModal(producto) {
+  document.getElementById('modal-titulo').textContent = producto.titulo;
+  document.getElementById('modal-descripcion').textContent = producto.descripcion || "Descripción no disponible";
+
+  document.getElementById('modal').classList.remove('oculto');
+}
+
+//Cierra el modal al hacer clic en la "x"
+document.getElementById('cerrar-modal').addEventListener('click', () => {
+  document.getElementById('modal').classList.add('oculto');
+});
+
+//También se puede cerrar el modal haciendo clic fuera del contenido
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') {
+    document.getElementById('modal').classList.add('oculto');
+  }
+});
+
+
